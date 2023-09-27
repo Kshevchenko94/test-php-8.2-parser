@@ -1,0 +1,13 @@
+{
+    "name": "konstantin/php-composer",
+    "type": "project",
+    "require": {
+        "php-amqplib/php-amqplib": "v3.5.4",
+        "vlucas/phpdotenv": "v5.5.0"
+    },
+    "authors": [
+        {
+            "name": "Konstantin Zhikhor"
+        }
+    ]
+}

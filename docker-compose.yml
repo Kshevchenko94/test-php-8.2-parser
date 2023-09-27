@@ -1,0 +1,57 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: mariadb:11
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD}
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80'
+    volumes:
+      - ${WORKDIR_LOCAL}:${WORKDIR_CONTAINER}
+      - ${NGINX_LOCAL}:${NGINX_CONTAINER}
+
+  php:
+    container_name: php_8
+    build:
+      context: ./docker/php-fpm
+    ports:
+      - '9000:9000'
+    volumes:
+      - ${WORKDIR_LOCAL}:${WORKDIR_CONTAINER}
+    working_dir: ${WORKDIR_CONTAINER}
+
+  rabbitmq:
+    image: rabbitmq:3.10.7-management
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "15672:15672"
+
+  ch_server:
+    image: yandex/clickhouse-server
+    platform: linux/amd64
+    ports:
+      - "8123:8123"
+    networks:
+      - ch_ntw
+
+  ch_client:
+    image: yandex/clickhouse-client
+    platform: linux/amd64
+    entrypoint:
+      - /bin/sleep
+    command:
+      - infinity
+    networks:
+      - ch_ntw
+networks:
+  ch_ntw:
+    driver: bridge
