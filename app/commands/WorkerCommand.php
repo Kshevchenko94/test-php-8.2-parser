@@ -3,19 +3,21 @@
 namespace App\commands;
 
 use App\services\AMQPService\AMPQConsumer;
+use ErrorException;
 
 final class WorkerCommand extends Command
 {
 
     /**
      * @inheritDoc
+     * @throws ErrorException
      */
     static function run(): void
     {
         global $config;
         $configRabbitmq = $config['rabbitmq'];
 
-        $res = (new AMPQConsumer(
+        (new AMPQConsumer(
             $configRabbitmq['host'],
             $configRabbitmq['port'],
             $configRabbitmq['user'],
@@ -23,6 +25,5 @@ final class WorkerCommand extends Command
             $configRabbitmq['channel'],
         ))->receivedMessage();
 
-        echo "Received " . $res . "\n";
     }
 }
