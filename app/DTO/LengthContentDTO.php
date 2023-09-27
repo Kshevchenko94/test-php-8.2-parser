@@ -2,7 +2,13 @@
 
 namespace App\DTO;
 
-class LengthContentDTO
-{
+use DateTime;
 
+readonly class LengthContentDTO
+{
+    public function __construct(
+        public int $lengthContent,
+        public string $dateTime
+    )
+    {}
 }

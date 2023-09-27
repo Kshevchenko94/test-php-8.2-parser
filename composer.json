@@ -3,7 +3,9 @@
     "type": "project",
     "require": {
         "php-amqplib/php-amqplib": "v3.5.4",
-        "vlucas/phpdotenv": "v5.5.0"
+        "vlucas/phpdotenv": "v5.5.0",
+      "ext-curl": "*",
+        "ext-pdo": "*"
     },
     "authors": [
         {

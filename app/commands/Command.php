@@ -2,7 +2,10 @@
 
 namespace App\commands;
 
-class Command
+abstract class Command
 {
-
+    /**
+     * @return void
+     */
+    abstract static function run(): void;
 }
